@@ -48,11 +48,12 @@ $env:GOOGLE_APPLICATION_CREDENTIALS
 $env:GOOGLE_APPLICATION_CREDENTIALS
 ```
 ## Step 3: Set Up Maven Project
-### Create Maven Project:
+### Add the dependencies in the Maven Project:
 Open the SOF project with dependencies.
-```<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
@@ -81,3 +82,68 @@ Open the SOF project with dependencies.
     </dependencies>
 </project>
 ```
+### Step 4: Use the Below Java Code to Upload File to GCP Storage Bucket:
+## Create the below Java Class
+```
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class SimpleInterface {
+
+    public SimpleInterface() {
+        JFrame frame = new JFrame("File Upload Example");
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        frame.add(panel);
+
+        JLabel label = new JLabel("This is a test for moving reference from SMB Mount to Cloud Storage");
+        panel.add(label);
+
+        JButton button = new JButton("Upload File");
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    java.io.File file = fileChooser.getSelectedFile();
+                    try {
+                        uploadToGCS(file.getAbsolutePath(), "your-bucket-name", file.getName());
+                        JOptionPane.showMessageDialog(frame, "File uploaded!");
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(frame, "File upload failed: " + ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        frame.setVisible(true);
+    }
+
+    private void uploadToGCS(String filePath, String bucketName, String objectName) throws IOException {
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+        BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, objectName).build();
+        storage.create(blobInfo, new FileInputStream(filePath));
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new SimpleInterface();
+            }
+        });
+    }
+}
+```
+### Run the New build
