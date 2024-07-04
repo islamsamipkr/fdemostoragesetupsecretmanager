@@ -33,10 +33,12 @@ Open Windows PowerShell.
 
 ### Set Environment Variable:
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\path\to\your\service-account-file.json"```
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\path\to\your\service-account-file.json"
+```
+### Verify Environment Variable:
 
-### Verify Environment Variable:**
 (Optional) Note: This could potentially be replaced with Google Cloud Secret Manager.
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS```
+$env:GOOGLE_APPLICATION_CREDENTIALS
+```
 
