@@ -146,4 +146,5 @@ public class SimpleInterface {
     }
 }
 ```
-### Run the New build
+### Run the New build 
+## Run the New build with added dependencies and GCS Storage Bucket setup
