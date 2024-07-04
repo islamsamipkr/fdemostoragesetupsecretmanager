@@ -140,11 +140,3 @@ Replace your-bucket-name with your actual Google Cloud Storage bucket name.
 
 Step 5: Run Your Application
 Compile and Run:
-
-Use your IDE to compile and run the Java application.
-When the application runs, a window will appear with a label and an upload button.
-Clicking the upload button will open a file chooser dialog to select a file to upload.
-File Upload:
-
-Select a file and click "Open".
-The file will be uploaded to the specified Google Cloud Storage bucket, and a success message will be shown.
